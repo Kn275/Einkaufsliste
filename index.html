@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#174b45">
   <meta name="description" content="Eine einfache Einkaufsliste, die auf diesem iPhone gespeichert wird.">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="apple-touch-icon.png">
   <title>Meine Einkaufsliste</title>
   <style>
     :root { color-scheme:light; --ink:#172a27; --muted:#465c58; --green:#174b45; --line:#c6d7d1; --red:#873b30; }
@@ -104,7 +106,7 @@
         const text = input.value.trim();
         if (!text) { input.focus(); return; }
         entries.push({ id: `${Date.now()}-${Math.random().toString(16).slice(2)}`, text, done:false });
-        save(); render(); input.value = ""; input.focus();
+        save(); render(); input.value = ""; input.blur();
       }
       document.getElementById("add-button").addEventListener("click", addEntry);
       input.addEventListener("keydown", event => { if (event.key === "Enter") { event.preventDefault(); addEntry(); } });

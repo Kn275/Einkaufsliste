@@ -4,115 +4,69 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#174b45">
-  <meta name="description" content="Eine einfache Einkaufsliste, die auf diesem iPhone gespeichert wird.">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="apple-touch-icon.png">
   <title>Meine Einkaufsliste</title>
   <style>
-    :root { color-scheme:light; --ink:#172a27; --muted:#465c58; --green:#174b45; --line:#c6d7d1; --red:#873b30; }
-    * { box-sizing:border-box; }
-    body { margin:0; background:#f5f8f6; color:var(--ink); font:20px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-    header { background:var(--green); color:white; padding:1.5rem 1rem 1.25rem; }
-    .wrap { max-width:680px; margin:0 auto; }
-    h1 { margin:0; font-size:clamp(2rem,8vw,2.65rem); line-height:1.1; }
-    header p { margin:.5rem 0 0; font-size:1.05rem; }
-    main { padding:1rem; padding-bottom:calc(2rem + env(safe-area-inset-bottom)); }
-    .addbox { background:white; border:1px solid var(--line); border-radius:16px; padding:1rem; }
-    label { display:block; font-weight:750; margin-bottom:.45rem; }
-    .entryrow { display:flex; gap:.6rem; }
-    input[type="text"] { min-width:0; flex:1; min-height:58px; padding:.7rem .8rem; border:2px solid #758d87; border-radius:10px; font:inherit; color:var(--ink); }
-    button { font:inherit; font-weight:750; cursor:pointer; border-radius:11px; min-height:56px; padding:.65rem .95rem; }
-    button:focus-visible, input:focus-visible { outline:4px solid #d88b00; outline-offset:3px; }
-    .add { color:white; background:var(--green); border:2px solid var(--green); }
-    .help { color:var(--muted); font-size:.93rem; margin:.6rem 0 0; }
-    .listhead { display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; margin:1.45rem 0 .7rem; }
-    h2 { font-size:1.45rem; margin:0; }
-    #count { color:var(--muted); font-size:.98rem; }
-    ul { list-style:none; padding:0; margin:0; display:grid; gap:.6rem; }
-    .item { width:100%; background:white; border:1px solid var(--line); border-radius:13px; min-height:66px; display:flex; align-items:center; gap:.8rem; padding:.65rem .8rem; cursor:pointer; }
-    .item input { width:30px; height:30px; accent-color:var(--green); flex:0 0 auto; }
-    .item span { flex:1; overflow-wrap:anywhere; }
-    .item.done span { color:var(--muted); text-decoration:line-through; }
-    .empty { background:#eaf3ef; border-radius:13px; padding:1rem; color:var(--muted); }
-    .clear { width:100%; margin-top:1rem; background:white; border:2px solid var(--red); color:var(--red); min-height:62px; }
-    .clear:disabled { border-color:#aab8b4; color:#596965; background:#edf1ef; cursor:not-allowed; }
-    .privacy { margin-top:1.25rem; padding:.85rem 1rem; border-left:5px solid var(--green); background:#eaf3ef; border-radius:8px; color:#29413c; font-size:.95rem; }
-    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-    @media (max-width:390px) { .entryrow { flex-direction:column; } .add { width:100%; } }
+    :root{color-scheme:light;--ink:#172a27;--muted:#465c58;--green:#174b45;--line:#c6d7d1;--red:#873b30;--pale:#eaf3ef}
+    *{box-sizing:border-box}body{margin:0;background:#f5f8f6;color:var(--ink);font:19px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    header{background:var(--green);color:white;padding:1.25rem 1rem}.wrap{max-width:720px;margin:auto}h1{font-size:clamp(1.9rem,7vw,2.5rem);line-height:1.1;margin:0}header p{margin:.5rem 0 0}
+    main{padding:1rem;padding-bottom:3rem}.tabs{display:flex;gap:.6rem;margin-bottom:1rem}.tabs button{flex:1}.button,button{font:inherit;font-weight:700;cursor:pointer;border-radius:11px;min-height:54px;padding:.6rem .8rem;border:2px solid var(--green);background:white;color:var(--green)}button:focus-visible,input:focus-visible,select:focus-visible{outline:4px solid #d88b00;outline-offset:2px}.tabs button[aria-selected="true"],.primary{background:var(--green);color:white}
+    h2{font-size:1.45rem;margin:1.3rem 0 .65rem}.intro{margin:.25rem 0 1rem;color:var(--muted)}.panel{background:white;border:1px solid var(--line);border-radius:15px;padding:1rem;margin:.8rem 0}.row{display:flex;gap:.6rem;align-items:center}.row.wraprow{flex-wrap:wrap}label.field{display:block;font-weight:700;margin:.8rem 0 .35rem}input[type=text],select{font:inherit;min-height:54px;padding:.55rem .7rem;border:2px solid #758d87;border-radius:10px;background:white;color:var(--ink)}.grow{flex:1;min-width:0}.help{font-size:.9rem;color:var(--muted);margin:.55rem 0 0}.entrylist,.route-list{list-style:none;padding:0;margin:.6rem 0;display:grid;gap:.55rem}.entry{background:white;border:1px solid var(--line);border-radius:12px;padding:.65rem;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(140px,auto);gap:.65rem;align-items:center;min-height:66px;cursor:pointer}.entry input[type=checkbox]{width:28px;height:28px;accent-color:var(--green)}.entry.done .product{text-decoration:line-through;color:var(--muted)}.product{font-weight:650;overflow-wrap:anywhere}.route-tag{font-size:.88rem;color:var(--muted)}.smallbtn{min-height:44px;padding:.35rem .55rem}.route-edit{display:grid;grid-template-columns:1fr auto auto;gap:.5rem;align-items:center}.route-name{font-weight:700}.route-controls{display:flex;gap:.35rem}.route-number{display:inline-block;min-width:2.8rem;font-weight:800;color:var(--green)}.empty{padding:.8rem;background:var(--pale);border-radius:10px;color:var(--muted)}.warning{border-left:5px solid #d88b00;background:#fff8e7;padding:.8rem;border-radius:8px}.privacy{font-size:.9rem;color:var(--muted);margin-top:1.3rem}.danger{border-color:var(--red);color:var(--red)}.wide{width:100%}.hidden{display:none!important}
+    .standard-entry{grid-template-columns:minmax(0,1fr) minmax(140px,auto) auto}
+    @media(max-width:520px){.row.mobilecol{align-items:stretch;flex-direction:column}.row.mobilecol button{width:100%}.entry{grid-template-columns:auto minmax(0,1fr)}.entry select{grid-column:2;grid-row:2;width:100%}.entry .route-tag{grid-column:2}.standard-entry{grid-template-columns:minmax(0,1fr) auto}.standard-entry select{grid-column:1/-1;grid-row:2}.standard-entry .product{grid-column:1}.standard-entry button{grid-column:2;grid-row:1}.route-edit{grid-template-columns:1fr auto}.route-controls{grid-column:1/-1}.route-controls button{flex:1}}
   </style>
 </head>
 <body>
-  <header><div class="wrap"><h1>Meine Einkaufsliste</h1><p>Einsprechen, abhaken, fertig.</p></div></header>
+  <header><div class="wrap"><h1>Meine Einkaufsliste</h1><p>Vorlage vorbereiten, Einkauf starten, abhaken.</p></div></header>
   <main class="wrap">
-    <section class="addbox" aria-label="Eintrag hinzufügen">
-      <label for="new-item">Was brauchst du?</label>
-      <div class="entryrow">
-        <input id="new-item" type="text" autocomplete="off" enterkeyhint="done" placeholder="Zum Beispiel: Äpfel">
-        <button class="add" id="add-button" type="button">Hinzufügen</button>
-      </div>
-      <p class="help">Tippe ins Feld und nutze zum Sprechen das Mikrofon auf der iPhone-Tastatur.</p>
+    <div class="tabs" role="tablist" aria-label="Listen"><button id="tab-current" role="tab" aria-controls="current" aria-selected="true">Aktueller Einkauf</button><button id="tab-standard" role="tab" aria-controls="standard" aria-selected="false">Standardliste</button></div>
+    <section id="current" role="tabpanel" aria-labelledby="tab-current">
+      <h2>Aktueller Einkauf</h2><p class="intro">Deine Standardliste wird hierher kopiert. Abhaken gilt nur für diesen Einkauf.</p>
+      <button class="primary wide" id="start">Einkauf starten – Standardliste übernehmen</button>
+      <p class="help" id="active-note" aria-live="polite"></p>
+      <section class="panel" aria-label="Artikel für diesen Einkauf hinzufügen"><label class="field" for="current-input">Noch etwas gebraucht?</label><div class="row mobilecol"><input class="grow" id="current-input" type="text" autocomplete="off" enterkeyhint="done" placeholder="Zum Beispiel: Milch"><select id="current-route" aria-label="Einkaufsreihenfolge"></select><button id="current-add" class="primary">Hinzufügen</button></div><p class="help">Wähle R1, R2 und so weiter. Das Mikrofon der iPhone-Tastatur funktioniert ebenfalls.</p></section>
+      <ul class="entrylist" id="current-items"></ul><p class="empty" id="current-empty">Noch kein Einkauf gestartet. Öffne „Standardliste“ und trage deine Artikel ein.</p><button class="danger wide" id="clear-done" disabled>Erledigte Einträge löschen</button>
     </section>
-
-    <section aria-labelledby="list-title">
-      <div class="listhead"><h2 id="list-title">Auf deiner Liste</h2><span id="count" aria-live="polite"></span></div>
-      <ul id="items"></ul>
-      <p class="empty" id="empty-message">Deine Einkaufsliste ist noch leer.</p>
-      <button class="clear" id="clear-button" type="button" disabled>Erledigte Einträge löschen</button>
+    <section id="standard" role="tabpanel" aria-labelledby="tab-standard" class="hidden">
+      <h2>Standardliste</h2><p class="intro">Diese Vorlage bleibt erhalten. Neue Artikel und Sortierung gelten für künftige Einkäufe.</p>
+      <button id="edit-routes" class="wide">Einkaufsreihenfolge bearbeiten</button>
+      <div id="route-editor" class="panel hidden"><h2>Dein Weg durch den Markt</h2><p class="help">Mit den Knöpfen nach oben oder unten verschieben. Die R-Nummern werden automatisch angepasst.</p><ul id="routes" class="route-list"></ul><div class="row mobilecol"><input id="route-input" class="grow" type="text" placeholder="Neuer Bereich, z. B. Kühlregal"><button id="route-add" class="primary">Bereich hinzufügen</button></div></div>
+      <section class="panel" aria-label="Standardartikel hinzufügen"><label class="field" for="standard-input">Artikel zur Standardliste hinzufügen</label><div class="row mobilecol"><input class="grow" id="standard-input" type="text" autocomplete="off" enterkeyhint="done" placeholder="Zum Beispiel: Äpfel"><select id="standard-route" aria-label="Einkaufsreihenfolge"></select><button id="standard-add" class="primary">Hinzufügen</button></div></section>
+      <ul class="entrylist" id="standard-items"></ul><p class="empty" id="standard-empty">Deine Standardliste ist noch leer.</p>
+      <p class="warning">Beim Start eines neuen Einkaufs wird die aktuelle Einkaufsliste ersetzt. Falls darin noch etwas Wichtiges steht, übernimm es zuerst in deine Standardliste.</p>
     </section>
-    <p class="privacy"><strong>Nur auf diesem iPhone:</strong> Die Liste wird in den Website-Daten dieses Geräts gespeichert. Sie wird nicht mit anderen Geräten synchronisiert. Wenn Safari-Website-Daten gelöscht werden, kann die Liste verloren gehen.</p>
+    <p class="privacy">Die Standardliste und der aktuelle Einkauf werden auf diesem Gerät im Browser gespeichert. Sie synchronisieren sich nicht automatisch mit anderen Geräten.</p>
   </main>
   <script>
-    (() => {
-      const storageKey = "einkaufsliste-v1";
-      const input = document.getElementById("new-item");
-      const list = document.getElementById("items");
-      const emptyMessage = document.getElementById("empty-message");
-      const count = document.getElementById("count");
-      const clearButton = document.getElementById("clear-button");
-      let entries = [];
-
-      try {
-        const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
-        if (Array.isArray(saved)) entries = saved.filter(item => item && typeof item.text === "string").map(item => ({ id: String(item.id), text: item.text, done: Boolean(item.done) }));
-      } catch (_) { entries = []; }
-
-      function save() {
-        try { localStorage.setItem(storageKey, JSON.stringify(entries)); }
-        catch (_) { alert("Die Liste konnte nicht gespeichert werden. Prüfe bitte den freien Speicherplatz auf deinem iPhone."); }
-      }
-      function render() {
-        list.replaceChildren();
-        entries.forEach(entry => {
-          const row = document.createElement("li");
-          const label = document.createElement("label");
-          label.className = `item${entry.done ? " done" : ""}`;
-          const checkbox = document.createElement("input");
-          checkbox.type = "checkbox";
-          checkbox.checked = entry.done;
-          checkbox.addEventListener("change", () => { entry.done = checkbox.checked; save(); render(); });
-          const text = document.createElement("span");
-          text.textContent = entry.text;
-          label.append(checkbox, text);
-          row.append(label);
-          list.append(row);
-        });
-        const doneCount = entries.filter(item => item.done).length;
-        emptyMessage.hidden = entries.length > 0;
-        count.textContent = entries.length ? `${entries.length} ${entries.length === 1 ? "Eintrag" : "Einträge"}` : "";
-        clearButton.disabled = doneCount === 0;
-        clearButton.textContent = doneCount ? `Erledigte Einträge löschen (${doneCount})` : "Erledigte Einträge löschen";
-      }
-      function addEntry() {
-        const text = input.value.trim();
-        if (!text) { input.focus(); return; }
-        entries.push({ id: `${Date.now()}-${Math.random().toString(16).slice(2)}`, text, done:false });
-        save(); render(); input.value = ""; input.blur();
-      }
-      document.getElementById("add-button").addEventListener("click", addEntry);
-      input.addEventListener("keydown", event => { if (event.key === "Enter") { event.preventDefault(); addEntry(); } });
-      clearButton.addEventListener("click", () => { entries = entries.filter(item => !item.done); save(); render(); });
-      render();
-    })();
+  (()=>{
+    const KEY='einkaufsliste-vorschlag-v2';
+    const defaults={routes:['Obst und Gemüse','Gemüsekonserven','Brot'],standard:[],current:[],started:false};
+    const $=id=>document.getElementById(id), uid=()=>`${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    let data;
+    try{data=JSON.parse(localStorage.getItem(KEY)||'null')}catch(_){data=null}
+    if(!data){
+      data=defaults;
+      try{const old=JSON.parse(localStorage.getItem('einkaufsliste-v1')||'[]');if(Array.isArray(old)&&old.length){const prior=old.filter(x=>x&&typeof x.text==='string');data.standard=prior.map(x=>({id:String(x.id||uid()),text:x.text,route:0,done:false}));data.current=prior.map(x=>({id:String(x.id||uid()),text:x.text,route:0,done:Boolean(x.done)}));data.started=true}}catch(_){}
+    }
+    data.routes=Array.isArray(data.routes)&&data.routes.length?data.routes:['Obst und Gemüse','Gemüsekonserven','Brot'];
+    data.standard=Array.isArray(data.standard)?data.standard:[];data.current=Array.isArray(data.current)?data.current:[];
+    function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(_){alert('Die Liste konnte nicht gespeichert werden. Bitte prüfe den freien Speicherplatz auf deinem iPhone.')}}
+    function routeName(i){return Number.isInteger(i)&&i>=0&&i<data.routes.length?`R${i+1} · ${data.routes[i]}`:'Noch zuordnen'}
+    function fillRouteSelect(select,chosen){select.replaceChildren();data.routes.forEach((name,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=`R${i+1} · ${name}`;select.append(o)});select.value=String(Number.isInteger(chosen)&&chosen>=0&&chosen<data.routes.length?chosen:0)}
+    function makeRouteSelect(item,collection){const s=document.createElement('select');s.setAttribute('aria-label',`Einkaufsreihenfolge für ${item.text}`);fillRouteSelect(s,item.route);s.addEventListener('change',()=>{item.route=Number(s.value);save();render()});return s}
+    function renderItems(kind){const arr=data[kind],ul=$(kind+'-items'),empty=$(kind+'-empty');ul.replaceChildren();const sorted=[...arr].sort((a,b)=>(a.route??999)-(b.route??999)||arr.indexOf(a)-arr.indexOf(b));sorted.forEach(item=>{const li=document.createElement('li');li.className=`entry${kind==='standard'?' standard-entry':''}${item.done?' done':''}`;if(kind==='current'){const cb=document.createElement('input');cb.type='checkbox';cb.checked=!!item.done;cb.setAttribute('aria-label',`${item.done?'Erledigt':'Offen'}: ${item.text}`);cb.addEventListener('change',()=>{item.done=cb.checked;save();render()});li.append(cb);li.addEventListener('click',e=>{if(e.target.closest('select,button,input'))return;item.done=!item.done;save();render()})}const name=document.createElement('span');name.className='product';name.textContent=item.text;li.append(name,makeRouteSelect(item,kind));if(kind==='standard'){const del=document.createElement('button');del.className='smallbtn danger';del.textContent='Löschen';del.setAttribute('aria-label',`${item.text} aus der Standardliste löschen`);del.addEventListener('click',()=>{data.standard=data.standard.filter(x=>x.id!==item.id);save();render()});li.append(del)}ul.append(li)});empty.hidden=arr.length>0;if(kind==='current'){$('clear-done').disabled=!arr.some(x=>x.done);$('clear-done').textContent=arr.some(x=>x.done)?`Erledigte Einträge löschen (${arr.filter(x=>x.done).length})`:'Erledigte Einträge löschen'}}
+    function renderRoutes(){const ul=$('routes');ul.replaceChildren();data.routes.forEach((name,i)=>{const li=document.createElement('li');li.className='panel route-edit';const text=document.createElement('span');text.className='route-name';text.innerHTML=`<span class="route-number">R${i+1}</span> ${escapeHtml(name)}`;const controls=document.createElement('div');controls.className='route-controls';const up=document.createElement('button');up.className='smallbtn';up.textContent='Nach oben';up.disabled=i===0;up.setAttribute('aria-label',`${name} nach oben verschieben`);up.onclick=()=>moveRoute(i,-1);const down=document.createElement('button');down.className='smallbtn';down.textContent='Nach unten';down.disabled=i===data.routes.length-1;down.setAttribute('aria-label',`${name} nach unten verschieben`);down.onclick=()=>moveRoute(i,1);const del=document.createElement('button');del.className='smallbtn danger';del.textContent='Löschen';del.onclick=()=>{if(data.routes.length<2){alert('Mindestens ein Bereich muss bleiben.');return}if(confirm(`„${name}“ löschen? Zugeordnete Artikel kommen zu R1.`)){data.routes.splice(i,1);[...data.standard,...data.current].forEach(item=>{if(item.route===i)item.route=0;else if(item.route>i)item.route--});save();render()}};controls.append(up,down,del);li.append(text,controls);ul.append(li)})}
+    function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+    function moveRoute(i,d){const j=i+d;if(j<0||j>=data.routes.length)return;[data.routes[i],data.routes[j]]=[data.routes[j],data.routes[i]];[...data.standard,...data.current].forEach(item=>{if(item.route===i)item.route=j;else if(item.route===j)item.route=i});save();render()}
+    function render(){renderItems('standard');renderItems('current');renderRoutes();fillRouteSelect($('standard-route'),0);fillRouteSelect($('current-route'),0);$('active-note').textContent=data.started?'Aktueller Einkauf ist gestartet.':'Noch kein aktueller Einkauf.'}
+    function add(kind){const input=$(kind+'-input'),text=input.value.trim();if(!text){input.focus();return}const route=Number($(kind+'-route').value);data[kind==='standard'?'standard':'current'].push({id:uid(),text,route,done:false});save();render();input.value='';input.blur()}
+    $('standard-add').onclick=()=>add('standard');$('current-add').onclick=()=>add('current');['standard','current'].forEach(k=>$(k+'-input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();add(k)}}));
+    $('clear-done').onclick=()=>{data.current=data.current.filter(item=>!item.done);save();render()};
+    $('start').onclick=()=>{if(!data.standard.length){alert('Füge zuerst Artikel in deine Standardliste ein.');$('tab-standard').click();return}if(data.current.length&&!confirm('Die aktuelle Einkaufsliste wird durch eine frische Kopie der Standardliste ersetzt. Fortfahren?'))return;data.current=data.standard.map(x=>({id:uid(),text:x.text,route:x.route,done:false}));data.started=true;save();render();$('tab-current').click();window.scrollTo({top:0,behavior:'smooth'})};
+    $('edit-routes').onclick=()=>{$('route-editor').classList.toggle('hidden');$('edit-routes').textContent=$('route-editor').classList.contains('hidden')?'Einkaufsreihenfolge bearbeiten':'Einkaufsreihenfolge schließen'};
+    $('route-add').onclick=()=>{const input=$('route-input'),v=input.value.trim();if(!v){input.focus();return}data.routes.push(v);save();render();input.value='';input.blur()};$('route-input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('route-add').click()}});
+    function tab(which){const current=which==='current';$('current').classList.toggle('hidden',!current);$('standard').classList.toggle('hidden',current);$('tab-current').setAttribute('aria-selected',String(current));$('tab-standard').setAttribute('aria-selected',String(!current))}
+    $('tab-current').onclick=()=>tab('current');$('tab-standard').onclick=()=>tab('standard');render();save();
+  })();
   </script>
 </body>
 </html>
